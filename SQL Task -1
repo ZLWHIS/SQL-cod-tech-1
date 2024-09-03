@@ -1,0 +1,410 @@
+TASK--1 ----- STUDENT DATABASE MANEGEMENT -----------
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| bca                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> create database student_records;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use student_records;
+Database changed
+
+mysql> create table students(student_id int primary key, FirstName varchar(255),LastName varchar(255),DateOfbirth date ,Email varchar(255));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++---------------------------+
+| Tables_in_student_records |
++---------------------------+
+| students                  |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> desc students
+    -> ;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| student_id  | int          | NO   | PRI | NULL    |       |
+| FirstName   | varchar(255) | YES  |     | NULL    |       |
+| LastName    | varchar(255) | YES  |     | NULL    |       |
+| DateOfbirth | date         | YES  |     | NULL    |       |
+| Email       | varchar(255) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+mysql> show tables;
++---------------------------+
+| Tables_in_student_records |
++---------------------------+
+| courses                   |
+| students                  |
++---------------------------+
+2 rows in set (0.00 sec)
+
+
+mysql> CREATE TABLE Enrollments (
+    ->   EnrollmentID INT PRIMARY KEY,
+    ->   StudentID INT,
+    ->   CourseID INT,
+    ->   Grade VARCHAR(255),
+    ->   FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    ->   FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+
+mysql> show tables;
++---------------------------+
+| Tables_in_student_records |
++---------------------------+
+| courses                   |
+| enrollments               |
+| students                  |
++---------------------------+
+3 rows in set (0.00 sec)
+
+mysql> desc students;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| StudentID   | int          | NO   | PRI | NULL    |       |
+| FirstName   | varchar(255) | YES  |     | NULL    |       |
+| LastName    | varchar(255) | YES  |     | NULL    |       |
+| DateOfbirth | date         | YES  |     | NULL    |       |
+| Email       | varchar(255) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc courses;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| CourseID   | int          | NO   | PRI | NULL    |       |
+| CourseName | varchar(255) | YES  |     | NULL    |       |
+| Credits    | int          | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc enrollments;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| EnrollmentID | int          | NO   | PRI | NULL    |       |
+| StudentID    | int          | YES  | MUL | NULL    |       |
+| CourseID     | int          | YES  | MUL | NULL    |       |
+| Grade        | varchar(255) | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+------INSERTING INTO STUDENT TABLE---------
+  insert into students (StudentID,FirstName,LastName,DateOfBirth,Email)values(1,'Ayush','Singh','2004-09-17','ayushsingh234399@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from students;
++-----------+-----------+----------+-------------+----------------------------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      |
++-----------+-----------+----------+-------------+----------------------------+
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |
++-----------+-----------+----------+-------------+----------------------------+
+1 row in set (0.00 sec)
+
+ select *from students;
++-----------+-----------+----------+-------------+----------------------------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      |
++-----------+-----------+----------+-------------+----------------------------+
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |
++-----------+-----------+----------+-------------+----------------------------+
+8 rows in set (0.00 sec)
+
+----------INSERT INTO COURSES---------
+
+mysql> insert into Courses(CourseID,CourseName,Credits)
+    -> values(1,'Joy of Python',4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Courses(CourseID,CourseName,Credits)
+    -> values(2,'Java',4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Courses(CourseID,CourseName,Credits)
+    -> values(3,'C++',4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Courses(CourseID,CourseName,Credits)
+    -> values(4,'UI_UX',3);
+Query OK, 1 row affected (0.01 sec)
+
+
+select *from courses;
++----------+-----------------+---------+
+| CourseID | CourseName      | Credits |
++----------+-----------------+---------+
+|        1 | Joy of Python   |       4 |
+|        2 | Java            |       4 |
+|        3 | C++             |       4 |
+|        4 | UI_UX           |       3 |
+|        5 | Web_Development |       3 |
+|        6 | Editing         |       3 |
+|        7 | Joy of python   |       3 |
+|        8 | Full_Stack      |       4 |
++----------+-----------------+---------+
+8 rows in set (0.00 sec)
+
+mysql> desc enrollments;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| EnrollmentID | int          | NO   | PRI | NULL    |       |
+| StudentID    | int          | YES  | MUL | NULL    |       |
+| CourseID     | int          | YES  | MUL | NULL    |       |
+| Grade        | varchar(255) | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+--------------INSERT INTO ENROLLMENTS-------------------------
+
+mysql> insert into Enrollments( EnrollmentID,StudentID,CourseID,Grade)
+    -> values(1,1,1,'A');
+Query OK, 1 row affected (0.01 sec)
+
+insert into Enrollments( EnrollmentID,StudentID,CourseID,Grade)
+    -> values(1,1,1,'A');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Enrollments( EnrollmentID,StudentID,CourseID,Grade)
+    -> values(2,2,2,'A+');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Enrollments( EnrollmentID,StudentID,CourseID,Grade)
+    -> values(3,3,3,'A++');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Enrollments( EnrollmentID,StudentID,CourseID,Grade)
+    -> values(4,4,4,'B+');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select
+    -> *from enrollments;
++--------------+-----------+----------+-------+
+| EnrollmentID | StudentID | CourseID | Grade |
++--------------+-----------+----------+-------+
+|            1 |         1 |        1 | A     |
+|            2 |         2 |        2 | A+    |
+|            3 |         3 |        3 | A++   |
+|            4 |         4 |        4 | B+    |
++--------------+-----------+----------+-------+
+4 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------
+
+
+ select *from students;
++-----------+-----------+----------+-------------+----------------------------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      |
++-----------+-----------+----------+-------------+----------------------------+
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |
++-----------+-----------+----------+-------------+----------------------------+
+8 rows in set (0.00 sec)
+
+mysql> select *from courses;
++----------+-----------------+---------+
+| CourseID | CourseName      | Credits |
++----------+-----------------+---------+
+|        1 | Joy of Python   |       4 |
+|        2 | Java            |       4 |
+|        3 | C++             |       4 |
+|        4 | UI_UX           |       3 |
+|        5 | Web_Development |       3 |
+|        6 | Editing         |       3 |
+|        7 | Joy of python   |       3 |
+|        8 | Full_Stack      |       4 |
++----------+-----------------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select *from enrollments;
++--------------+-----------+----------+-------+
+| EnrollmentID | StudentID | CourseID | Grade |
++--------------+-----------+----------+-------+
+|            1 |         1 |        1 | A     |
+|            2 |         2 |        2 | A+    |
+|            3 |         3 |        3 | A++   |
+|            4 |         4 |        4 | B+    |
+|            5 |         5 |        5 | B++   |
+|            6 |         6 |        6 | A++   |
+|            7 |         7 |        7 | B-    |
+|            8 |         8 |        8 | A+    |
++--------------+-----------+----------+-------+
+8 rows in set (0.00 sec)
+
+---------------------------CROSS JOIN -------------------------
+
+
+ select *from students cross join courses;
++-----------+-----------+----------+-------------+----------------------------+----------+-----------------+---------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      | CourseID | CourseName      | Credits |
++-----------+-----------+----------+-------------+----------------------------+----------+-----------------+---------+
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        1 | Joy of Python   |       4 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        1 | Joy of Python   |       4 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        1 | Joy of Python   |       4 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        1 | Joy of Python   |       4 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        1 | Joy of Python   |       4 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        1 | Joy of Python   |       4 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        1 | Joy of Python   |       4 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        1 | Joy of Python   |       4 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        2 | Java            |       4 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        2 | Java            |       4 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        2 | Java            |       4 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        2 | Java            |       4 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        2 | Java            |       4 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        2 | Java            |       4 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        2 | Java            |       4 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        2 | Java            |       4 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        3 | C++             |       4 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        3 | C++             |       4 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        3 | C++             |       4 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        3 | C++             |       4 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        3 | C++             |       4 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        3 | C++             |       4 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        3 | C++             |       4 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        3 | C++             |       4 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        4 | UI_UX           |       3 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        4 | UI_UX           |       3 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        4 | UI_UX           |       3 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        4 | UI_UX           |       3 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        4 | UI_UX           |       3 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        4 | UI_UX           |       3 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        4 | UI_UX           |       3 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        4 | UI_UX           |       3 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        5 | Web_Development |       3 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        5 | Web_Development |       3 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        5 | Web_Development |       3 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        5 | Web_Development |       3 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        5 | Web_Development |       3 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        5 | Web_Development |       3 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        5 | Web_Development |       3 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        5 | Web_Development |       3 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        6 | Editing         |       3 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        6 | Editing         |       3 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        6 | Editing         |       3 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        6 | Editing         |       3 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        6 | Editing         |       3 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        6 | Editing         |       3 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        6 | Editing         |       3 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        6 | Editing         |       3 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        7 | Joy of python   |       3 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        7 | Joy of python   |       3 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        7 | Joy of python   |       3 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        7 | Joy of python   |       3 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        7 | Joy of python   |       3 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        7 | Joy of python   |       3 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        7 | Joy of python   |       3 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        7 | Joy of python   |       3 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        8 | Full_Stack      |       4 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        8 | Full_Stack      |       4 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        8 | Full_Stack      |       4 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        8 | Full_Stack      |       4 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        8 | Full_Stack      |       4 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        8 | Full_Stack      |       4 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        8 | Full_Stack      |       4 |
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        8 | Full_Stack      |       4 |
++-----------+-----------+----------+-------------+----------------------------+----------+-----------------+---------+
+64 rows in set (0.00 sec)
+
+------------------NATURAL JOIN-------------
+
+
+mysql> select *from students natural join enrollments;
++-----------+-----------+----------+-------------+----------------------------+--------------+----------+-------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      | EnrollmentID | CourseID | Grade |
++-----------+-----------+----------+-------------+----------------------------+--------------+----------+-------+
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |            1 |        1 | A     |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |            2 |        2 | A+    |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |            3 |        3 | A++   |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |            4 |        4 | B+    |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |            5 |        5 | B++   |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |            6 |        6 | A++   |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |            7 |        7 | B-    |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |            8 |        8 | A+    |
++-----------+-----------+----------+-------------+----------------------------+--------------+----------+-------+
+8 rows in set (0.00 sec)
+
+-------------------------LEFT OUTER JOIN-------------------------------
+
+
+
+ select *from students LEFT OUTER JOIN courses ON (students.studentID = courses.courseId );
++-----------+-----------+----------+-------------+----------------------------+----------+-----------------+---------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      | CourseID | CourseName      | Credits |
++-----------+-----------+----------+-------------+----------------------------+----------+-----------------+---------+
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |        1 | Joy of Python   |       4 |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |        2 | Java            |       4 |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |        3 | C++             |       4 |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |        4 | UI_UX           |       3 |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |        5 | Web_Development |       3 |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |        6 | Editing         |       3 |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |        7 | Joy of python   |       3 |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |        8 | Full_Stack      |       4 |
++-----------+-----------+----------+-------------+----------------------------+----------+-----------------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select *from students LEFT OUTER JOIN enrollments ON (students.studentID = enrollments.enrollmentID);
++-----------+-----------+----------+-------------+----------------------------+--------------+-----------+----------+-------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      | EnrollmentID | StudentID | CourseID | Grade |
++-----------+-----------+----------+-------------+----------------------------+--------------+-----------+----------+-------+
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |            1 |         1 |        1 | A     |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |            2 |         2 |        2 | A+    |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |            3 |         3 |        3 | A++   |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |            4 |         4 |        4 | B+    |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |            5 |         5 |        5 | B++   |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |            6 |         6 |        6 | A++   |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |            7 |         7 |        7 | B-    |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |            8 |         8 |        8 | A+    |
++-----------+-----------+----------+-------------+----------------------------+--------------+-----------+----------+-------+
+8 rows in set (0.00 sec)
+
+
+----------------------------------------RIGHT OUTER JOIN QUERY-----------------------------------
+
+
+mysql> select *from students RIGHT OUTER JOIN enrollments ON (students.studentID = enrollments.enrollmentID);
++-----------+-----------+----------+-------------+----------------------------+--------------+-----------+----------+-------+
+| StudentID | FirstName | LastName | DateOfbirth | Email                      | EnrollmentID | StudentID | CourseID | Grade |
++-----------+-----------+----------+-------------+----------------------------+--------------+-----------+----------+-------+
+|         1 | Ayush     | Singh    | 2004-09-17  | ayushsingh234399@gmail.com |            1 |         1 |        1 | A     |
+|         2 | Arpit     | Dobriyal | 2005-01-15  | arpitdob156@exe.com        |            2 |         2 |        2 | A+    |
+|         3 | udit      | narayana | 2004-04-20  | udit123@exe.com            |            3 |         3 |        3 | A++   |
+|         4 | Batla     | Datta    | 2004-08-18  | batla123@exe.com           |            4 |         4 |        4 | B+    |
+|         5 | CR        | Sharma   | 2002-02-20  | devsh123@exe.com           |            5 |         5 |        5 | B++   |
+|         6 | Bhaskar   | Bisht    | 2004-07-29  | bisht123@exe.com           |            6 |         6 |        6 | A++   |
+|         7 | dheeraj   | nepali   | 2004-01-20  | dheezaj123@exe.com         |            7 |         7 |        7 | B-    |
+|         8 | Sujal     | Gupta    | 2004-04-23  | suji123@exe.com            |            8 |         8 |        8 | A+    |
++-----------+-----------+----------+-------------+----------------------------+--------------+-----------+----------+-------+
+8 rows in set (0.00 sec)
+
+
